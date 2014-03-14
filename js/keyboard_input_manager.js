@@ -35,7 +35,11 @@ KeyboardInputManager.prototype.listen = function () {
     87: 0, // W
     68: 1, // D
     83: 2, // S
-    65: 3  // A
+    65: 3, // A
+    84: 4, //T
+    71: 5, //G
+    70: 6, //F
+    82: 7  //R
   };
 
   document.addEventListener("keydown", function (event) {
@@ -82,9 +86,36 @@ KeyboardInputManager.prototype.listen = function () {
     var dy = event.changedTouches[0].clientY - touchStartClientY;
     var absDy = Math.abs(dy);
 
+    var ratio = 0.5579;
+
     if (Math.max(absDx, absDy) > 10) {
       // (right : left) : (down : up)
-      self.emit("move", absDx > absDy ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0));
+      var direction = 0;
+      if(absDy * ratio > absDx){
+        if(dy < 0){
+          direction = 2;
+        }else{
+          direction = 0;
+        }
+      }else if(absDy * ratio < absDx && absDx * ratio < absDy){
+        if(dy < 0 && dx > 0){
+          direction = 4;
+        }else if(dy > 0 && dx > 0){
+          direction = 5;
+        }else if(dy > 0 && dx < 0){
+          direction = 6;
+        }else{
+          direction = 7;
+        }
+      }else{
+        if(dx > 0){
+          direction = 1;
+        }else{
+          direction = 3;
+        }
+      }
+      self.emit("move", direction);
+
     }
   });
 };
