@@ -93,9 +93,9 @@ KeyboardInputManager.prototype.listen = function () {
       var direction = 0;
       if(absDy * ratio > absDx){
         if(dy < 0){
-          direction = 2;
-        }else{
           direction = 0;
+        }else{
+          direction = 2;
         }
       }else if(absDy * ratio < absDx && absDx * ratio < absDy){
         if(dy < 0 && dx > 0){
